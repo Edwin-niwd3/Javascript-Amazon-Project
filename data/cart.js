@@ -90,3 +90,8 @@ export function UpdateCart(productId, newAmount){
   }
   saveToStorage();
 }
+
+export function ClearCart() {
+  cart.splice(0, cart.length)
+  saveToStorage();
+}
