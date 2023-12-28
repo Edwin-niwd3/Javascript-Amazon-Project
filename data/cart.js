@@ -75,3 +75,18 @@ export function NumberofItems() {
   })
   return CartSize;
 }
+
+export function UpdateCart(productId, newAmount){
+  let matchingItem;
+
+  cart.forEach((cartitem) => {
+    if(productId === cartitem.Id){
+      matchingItem = cartitem;
+    }
+  });
+
+  if(matchingItem) {
+    matchingItem.quantity = newAmount;
+  }
+  saveToStorage();
+}

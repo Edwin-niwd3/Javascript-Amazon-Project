@@ -1,4 +1,4 @@
-import {cart, removeFromCart, updateDeliveryOption, NumberofItems} from '../../data/cart.js';
+import {cart, removeFromCart, updateDeliveryOption, NumberofItems, addToCart, UpdateCart} from '../../data/cart.js';
 import {products, getProduct} from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -6,7 +6,7 @@ import {deliveryOptions, getDeliveryOption} from '../../data/deliveryOptions.js'
 import { renderPaymentSummary } from './paymentSummary.js';
 
 export function renderOrderSummary() {
-
+  updateCheckoutNumber();
 
   let cartSummaryHTML = '';
 
@@ -49,7 +49,7 @@ export function renderOrderSummary() {
             <span>
               Quantity: <span class="quantity-label">${cartItem.quantity}</span>
             </span>
-            <span class="update-quantity-link link-primary">
+            <span class="update-quantity-link link-primary js-update-link js-specific-update-${matchingProduct.id}" data-product-id = "${matchingProduct.id}">
               Update
             </span>
             <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
@@ -120,10 +120,54 @@ export function renderOrderSummary() {
             `.js-cart-item-container-${productID}`
         );
         container.remove();
-        const CartSize = NumberofItems();
-        console.log(typeof (CartSize));
-        document.querySelector('.js-home-link').innerHTML = `${CartSize===null ? '0' : CartSize} items`;
+        updateCheckoutNumber();
         renderPaymentSummary();
+      });
+    });
+
+    document.querySelectorAll('.js-update-link').forEach((link) => {
+      link.addEventListener('click', () => {
+        const productId = link.dataset.productId;
+    
+        // Create a text box and a button for updating the quantity
+        const quantityInput = document.createElement('input');
+        quantityInput.type = 'number';
+        quantityInput.className = 'quantity-input';
+        quantityInput.placeholder = 'Enter new quantity';
+    
+        const updateButton = document.createElement('button');
+        updateButton.className = 'update-quantity-button';
+        updateButton.textContent = 'Update';
+    
+        // Find the parent container for the product and update the content
+        const productContainer = link.closest('.cart-item-details-grid');
+        
+        // Find the existing update link and replace it with the quantity input and button
+        const existingUpdateLink = productContainer.querySelector('.js-update-link');
+        existingUpdateLink.replaceWith(quantityInput, updateButton);
+    
+        // Add an event listener to the update button
+        updateButton.addEventListener('click', () => {
+          const newQuantity = parseInt(quantityInput.value, 10);
+    
+          // Update the quantity in your cart data
+          if(newQuantity === 0)
+          {
+            const productID = link.dataset.productId;
+            removeFromCart(productID);
+    
+            const container = document.querySelector(
+                `.js-cart-item-container-${productID}`
+            );
+            container.remove();
+            updateCheckoutNumber();
+            renderPaymentSummary();
+          }
+          UpdateCart(productId,newQuantity);
+          // Render the updated order summary and payment summary
+          renderOrderSummary();
+          renderPaymentSummary();
+        });
       });
     });
 
@@ -136,5 +180,9 @@ export function renderOrderSummary() {
           renderPaymentSummary();
         });
       });
-
+    function updateCheckoutNumber(){
+      const CartSize = NumberofItems();
+      console.log(typeof (CartSize));
+      document.querySelector('.js-home-link').innerHTML = `${CartSize===null ? '0' : CartSize} items`;
+    };
 }
