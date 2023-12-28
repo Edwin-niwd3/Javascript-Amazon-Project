@@ -61,9 +61,11 @@ export function renderPaymentSummary() {
     </div>
   </div>
 
-  <button class="place-order-button button-primary js-place-order-button">
-    Place your order
-  </button>
+  <a href = "orders.html">
+    <button class="place-order-button button-primary js-place-order-button">
+      Place your order
+    </button>
+  </a>
   `;
   document.querySelector('.js-payment-summary')
     .innerHTML = paymentsummaryHTML;

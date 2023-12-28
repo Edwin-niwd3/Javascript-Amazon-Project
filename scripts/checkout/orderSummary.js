@@ -182,7 +182,6 @@ export function renderOrderSummary() {
       });
     function updateCheckoutNumber(){
       const CartSize = NumberofItems();
-      console.log(typeof (CartSize));
       document.querySelector('.js-home-link').innerHTML = `${CartSize===null ? '0' : CartSize} items`;
     };
 }
