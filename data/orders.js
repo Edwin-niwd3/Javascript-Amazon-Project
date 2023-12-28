@@ -1,25 +1,23 @@
 export let orders = JSON.parse(localStorage.getItem('orders'));
 
 if(!orders){
-  orders = [];
+  orders = [{
+    orderId: '123109284',
+    priceCents: 5000,
+    dateOrderPlaced: "January 12",
+    Products: [{
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      productQuantity: 1,
+      productArrival: "January 15"
+    }]
+  }];
 }
 
-/* Basic Idea of the orders array
+function saveToStorage() {
+  localStorage.setItem('orders', JSON.stringify(orders));
+}
 
-orders = [{
-  orderId: 
-  priceCents:
-  dateOrderPlaced:
-  Products: [{
-    productId: 
-    productQuantity:
-    ProductArrival:
-  }]
-}]
 
-*/
-
-export let cart = JSON.parse(localStorage.getItem('cart'));
 
 export function MovetoOrders(productId, productQuantity, arrivalDate, dateorderPlaced, orderId, priceCents) {
   let matchingItem;
@@ -32,7 +30,7 @@ export function MovetoOrders(productId, productQuantity, arrivalDate, dateorderP
   });
   if(matchingItem)
   {//there already exists an order with the same orderId
-    matchingItem.products.push({
+    matchingItem.Products.push({
       productId: productId,
       productQuantity: productQuantity,
       productArrival: arrivalDate
@@ -54,6 +52,3 @@ export function MovetoOrders(productId, productQuantity, arrivalDate, dateorderP
   saveToStorage();
 }
 
-function saveToStorage() {
-  localStorage.setItem('orders', JSON.stringify(orders));
-}

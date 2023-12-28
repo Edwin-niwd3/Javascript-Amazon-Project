@@ -82,10 +82,10 @@ export function renderPaymentSummary() {
         const deliveryOption = getDeliveryOption(deliveryId);
 
         const today = dayjs();
-        const dateOrderPlaced = today.format('MMMM', 'D');
+        const dateOrderPlaced = today.format('MMMM, D');
         const arrivalDate = today.add(
           deliveryOption.deliveryDays, 'days');
-        const arrivalString = arrivalDate.format('MMMM', 'D');
+        const arrivalString = arrivalDate.format('MMMM, D');
         MovetoOrders(item.Id, item.quantity, arrivalString, dateOrderPlaced, OrderID, totalPriceCents);
       });
       ClearCart();
