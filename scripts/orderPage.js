@@ -1,6 +1,7 @@
 import { orders } from "../data/orders.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct } from "../data/products.js";
+import { NumberofItems } from "../data/cart.js";
 
 renderOrderPage();
 
@@ -80,4 +81,7 @@ orders.forEach((item) => {
     }
     productContainerHTML = '';
 });
+  const cartquantity = NumberofItems();
+  document.querySelector('.js-cart-quantity')
+  .innerHTML = cartquantity;
 }
