@@ -9,7 +9,6 @@ function renderOrderPage() {
   let orderContainerHTML = '';
   let productContainerHTML = '';
   orders.forEach((item) => {
-    console.log(item.dateOrderPlaces)
     //For each item we want to create the basic outline first
     orderContainerHTML += `
     <div class="order-container">
@@ -45,7 +44,6 @@ orders.forEach((item) => {
         item.Products.forEach((product) => {
         const productId = product.productId;
         const matchingProduct = getProduct(productId);
-        console.log(item.orderId);
         productContainerHTML += `
         <div class="product-image-container">
           <img src="${matchingProduct.image}">
