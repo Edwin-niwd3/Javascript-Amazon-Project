@@ -1,7 +1,9 @@
-import { orders } from "../data/orders.js";
+import { orders, getOrderByID} from "../data/orders.js";
 import { formatCurrency } from "./utils/money.js";
 import { getProduct } from "../data/products.js";
 import { NumberofItems } from "../data/cart.js";
+import { TrackNew } from "../data/tracking.js";
+
 
 renderOrderPage();
 
@@ -66,8 +68,8 @@ orders.forEach((item) => {
         </div>
     
         <div class="product-actions">
-          <a href="tracking.html">
-            <button class="track-package-button button-secondary">
+          <a href = "tracking.html">
+            <button class="track-package-button button-secondary js-track-button" data-product-id = "${product.productId}">
               Track package
             </button>
           </a>
@@ -79,6 +81,18 @@ orders.forEach((item) => {
     }
     productContainerHTML = '';
 });
+  let matchingProduct;
+  document.querySelectorAll('.js-track-button')
+    .forEach((button) => {
+      button.addEventListener('click', () => {
+        let productId = button.dataset.productId;
+        console.log(productId);
+        //we need to know what product to track
+        matchingProduct = getOrderByID(productId);
+        console.log(matchingProduct);
+        TrackNew(matchingProduct);
+      });
+    });
   const cartquantity = NumberofItems();
   document.querySelector('.js-cart-quantity')
   .innerHTML = cartquantity;

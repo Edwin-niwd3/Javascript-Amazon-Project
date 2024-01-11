@@ -52,3 +52,13 @@ export function MovetoOrders(productId, productQuantity, arrivalDate, dateorderP
   saveToStorage();
 }
 
+export function getOrderByID(productId){
+  let matchingProduct;
+  orders.forEach((order) => {
+    order.Products.forEach((product) => {
+      if(product.productId === productId)
+      {matchingProduct = product}
+    });
+  });
+  return matchingProduct;
+}
