@@ -1,5 +1,6 @@
 import { tracking } from "../data/tracking.js";
 import { products } from "../data/products.js";
+import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
 renderTrackingPage();
 
@@ -45,8 +46,32 @@ function renderTrackingPage() {
     </div>
 
     <div class="progress-bar-container">
-      <div class="progress-bar"></div>
+      <div class="progress-bar" id = "js-progress-bar"></div>
   </div>
   `
   document.querySelector('.js-main').innerHTML = innerHTML;
+  let progressBar = document.getElementById('js-progress-bar');
+  progressBar.style.width = '20%';
+
+  let today = dayjs();
+  let todayFormat = today.format('D');
+  let productArrival = dayjs(product.productArrival).format('D');
+  const dayorderPlaced = parseInt(dayjs(product.dateOrderPlaced).format('D'));
+  let maththingy = productArrival-dayorderPlaced;
+  let totalDays
+  if(maththingy < 0)//this means we are in the next month
+  {
+    totalDays = 31+parseInt(maththingy);
+  } else{
+    totalDays = maththingy;
+  }
+  
+  const daydifference = productArrival-todayFormat;
+  if(daydifference < 0)//we are already past the arrival date
+  {
+    progressBar.style.width = '100%';
+  } else
+  {
+    const progressPercentage = (1-(daydifference/totalDays))*100;
+  }
 }

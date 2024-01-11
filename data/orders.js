@@ -57,7 +57,10 @@ export function getOrderByID(productId){
   orders.forEach((order) => {
     order.Products.forEach((product) => {
       if(product.productId === productId)
-      {matchingProduct = product}
+      {
+        matchingProduct = product;
+        matchingProduct.dateOrderPlaced = order.dateOrderPlaced;
+      }
     });
   });
   return matchingProduct;

@@ -89,7 +89,6 @@ orders.forEach((item) => {
         console.log(productId);
         //we need to know what product to track
         matchingProduct = getOrderByID(productId);
-        console.log(matchingProduct);
         TrackNew(matchingProduct);
       });
     });
